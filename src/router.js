@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import TravelMake from "./views/TravelMake.vue";
+import TravelList from "./views/TravelList.vue";
+import TravelMap from "./views/TravelMap.vue";
+import TravelDiagram from "./views/TravelDiagram.vue";
 
 Vue.use(Router);
 
@@ -10,17 +13,24 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "travels",
+      component: TravelList,
+      alias: "/travels"
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      path: "/travel/make",
+      name: "travel-make",
+      component: TravelMake
+    },
+    {
+      path: "/travels/map",
+      name: "travels-map",
+      component: TravelMap
+    },
+    {
+      path: "/travels/diagram",
+      name: "travels-diagram",
+      component: TravelDiagram
     }
   ]
 });

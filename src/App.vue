@@ -1,11 +1,40 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Создать путешествие</router-link>|
-      <router-link to="/travels">Все путешествия</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-navigation-drawer permanent app>
+      <v-list>
+        <v-list-tile>
+          <v-list-tile-avatar>
+            <v-icon x-large>layers</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title class="title font-weight-thin"
+              >История путешествий</v-list-tile-title
+            >
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-tile
+          v-for="item in items"
+          :key="item.name"
+          :to="{ name: item.name }"
+        >
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-content>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <style lang="scss">
@@ -21,9 +50,43 @@
   a {
     font-weight: bold;
     color: #2c3e50;
+    margin-right: 10px;
     &.router-link-exact-active {
       color: #42b983;
+    }
+    &:last-of-type {
+      margin-right: 0;
     }
   }
 }
 </style>
+<script>
+export default {
+  data() {
+    return {
+      items: [
+        {
+          title: "Создать путешествие",
+          name: "travel-make",
+          icon: "add_box"
+        },
+        {
+          title: "Все путешествия",
+          name: "travel-list",
+          icon: "list"
+        },
+        {
+          title: "Карта путешествий",
+          name: "travels-map",
+          icon: "map"
+        },
+        {
+          title: "Диаграмма путешествий",
+          name: "travels-chart",
+          icon: "bar_chart"
+        }
+      ]
+    };
+  }
+};
+</script>

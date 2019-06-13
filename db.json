@@ -1,0 +1,16 @@
+{
+  "travels": [
+    {
+      "id": 1,
+      "date": "20.11.2016",
+      "country": "Russia",
+      "city": "Moscow"
+    },
+    {
+      "id": 2,
+      "date": "20.11.2016",
+      "country": "Russia",
+      "city": "St.Peterburg"
+    }
+  ]
+}

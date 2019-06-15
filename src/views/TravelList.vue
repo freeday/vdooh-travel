@@ -1,39 +1,34 @@
 <template>
-  <v-card>
-    <v-list one-line>
-      <TravelItem v-for="travel in travels" :key="travel.id" :travel="travel"/>
-    </v-list>
-  </v-card>
+  <v-container>
+    <v-toolbar dark color="primary">
+      <v-toolbar-title class="white--text">Мои Путешествия</v-toolbar-title>
+    </v-toolbar>
+    <v-card>
+      <v-list v-if="travels.length">
+        <TravelItem v-for="travel in travels" :key="travel.id" :travel="travel"/>
+      </v-list>
+      <v-card-text v-else>
+        <v-card-text class="text-xs-center">Вы ещё не создали ни одного путешествия</v-card-text>
+        <v-card-text class="text-xs-center">
+          <v-btn large color="primary" :to="{ name: 'travel-make' }">Создать первое путешествие</v-btn>
+        </v-card-text>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
 import TravelItem from "@/components/TravelItem.vue";
-import axios from "axios";
+import { mapState } from "vuex";
+
 export default {
   components: {
     TravelItem
   },
-  data() {
-    return {
-      travels: []
-    };
-  },
   created() {
-    axios
-      .get("http://localhost:3000/travels")
-      .then(res => {
-        this.travels = res.data.map((o, i) => {
-          o.divider = true;
-          if (i === res.data.length - 1) {
-            o.divider = false;
-          }
-          return o;
-        });
-      })
-      .catch(err => {
-        console.log(err.response);
-      });
-  }
+    this.$store.dispatch("fetchTravels");
+  },
+  computed: mapState(["travels"])
 };
 </script>
 

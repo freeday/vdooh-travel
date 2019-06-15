@@ -12,10 +12,13 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/",
+      redirect: "/travel/list"
+    },
+    {
       path: "/travel/list",
       name: "travel-list",
-      component: TravelList,
-      alias: "/"
+      component: TravelList
     },
     {
       path: "/travel/make",

@@ -7,19 +7,13 @@
             <v-icon x-large>layers</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title class="title font-weight-thin"
-              >История путешествий</v-list-tile-title
-            >
+            <v-list-tile-title class="title font-weight-thin">История путешествий</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
       <v-divider></v-divider>
       <v-list>
-        <v-list-tile
-          v-for="item in items"
-          :key="item.name"
-          :to="{ name: item.name }"
-        >
+        <v-list-tile v-for="item in items" :key="item.name" :to="{ name: item.name }" ripple>
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -66,22 +60,22 @@ export default {
     return {
       items: [
         {
-          title: "Создать путешествие",
+          title: "Добавить путешествие",
           name: "travel-make",
           icon: "add_box"
         },
         {
-          title: "Все путешествия",
+          title: "Путешествия",
           name: "travel-list",
           icon: "list"
         },
         {
-          title: "Карта путешествий",
+          title: "Карта",
           name: "travels-map",
           icon: "map"
         },
         {
-          title: "Диаграмма путешествий",
+          title: "Диаграмма",
           name: "travels-chart",
           icon: "bar_chart"
         }

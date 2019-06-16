@@ -5,7 +5,7 @@
     </v-toolbar>
     <v-card>
       <v-container>
-        <v-form lazy-validation ref="form" v-model="valid">
+        <v-form lazy-validation ref="form">
           <v-layout row wrap>
             <v-flex xs12>
               <v-menu
@@ -27,20 +27,24 @@
               <v-text-field
                 v-model="travel.country"
                 label="Страна путешествия"
+                :error-messages="errorsCountry"
                 required
-                :rules="[v => !!v || 'Напишите страну путешествия']"
+                @input="$v.travel.country.$touch()"
+                @blur="$v.travel.country.$touch()"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
               <v-text-field
                 v-model="travel.city"
                 label="Город путешествия"
+                :error-messages="errorsCity"
                 required
-                :rules="[v => !!v || 'Напишите город путешествия']"
+                @input="$v.travel.city.$touch()"
+                @blur="$v.travel.city.$touch()"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-btn large color="primary" @click="validate" :disabled="!valid">Добавить путешествие</v-btn>
+              <v-btn large color="primary" @click="validate">Добавить путешествие</v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -50,11 +54,22 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
+  validations: {
+    travel: {
+      country: { required },
+      city: { required }
+    }
+  },
   data() {
     this.showPicker = false;
     return {
-      valid: true,
+      errorsCountry: [],
+      errorsCity: [],
       travel: this.makeBlankTravel()
     };
   },
@@ -66,7 +81,8 @@ export default {
         id: id,
         date: new Date().toISOString().substr(0, 10),
         country: "",
-        city: ""
+        city: "",
+        marker: {}
       };
     },
     makeTravel() {
@@ -74,38 +90,41 @@ export default {
         .dispatch("makeTravel", this.travel)
         .then(() => {
           this.travel = this.makeBlankTravel();
+          this.$v.$touch();
         })
         .catch(() => {
           console.log("Возникли проблемы создания путешествия");
         });
     },
     validate() {
-      if (this.$refs.form.validate()) {
-        console.log(
-          "Здесь нужна вторая проверка на геолокацию - существования страны и такого города"
-        );
-        this.$gmapApiPromiseLazy().then(res => {
-          let geocoder = new res.maps.Geocoder();
-          let address = `${this.travel.country}, ${this.travel.city}`;
-          geocoder.geocode({ address: address }, (results, status) => {
-            if (status == google.maps.GeocoderStatus.OK) {
-              var latitude = results[0].geometry.location.lat();
-              var longitude = results[0].geometry.location.lng();
+      this.errorsCountry = [];
+      this.errorsCity = [];
 
-              console.log(latitude);
-              this.makeTravel().then(() => {
-                this.$refs.form.resetValidation();
-              });
-            }
-          });
+      if (!this.$v.travel.country.$dirty) return this.errorsCountry;
+      if (!this.$v.travel.city.$dirty) return this.errorsCity;
+
+      !this.$v.travel.country.required &&
+        this.errorsCountry.push("Заполните поле страны путешествия");
+      !this.$v.travel.city.required &&
+        this.errorsCity.push("Заполните поле города путешествия");
+
+      this.$gmapApiPromiseLazy().then(res => {
+        let geocoder = new res.maps.Geocoder();
+        let address = `${this.travel.country}, ${this.travel.city}`;
+        geocoder.geocode({ address: address }, (results, status) => {
+          if (status == google.maps.GeocoderStatus.OK) {
+            this.travel.marker.lat = results[0].geometry.location.lat();
+            this.travel.marker.lng = results[0].geometry.location.lng();
+
+            this.makeTravel().then(() => {
+              // this.$refs.form.resetValidation();
+            });
+          } else {
+            this.errorsCountry.push("Такого города или страны не существует");
+            this.errorsCity.push("Такого города или страны не существует");
+          }
         });
-      }
-    },
-    reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
+      });
     }
   }
 };

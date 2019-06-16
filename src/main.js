@@ -5,8 +5,10 @@ import router from "./router";
 import store from "./store";
 import "vuetify/dist/vuetify.min.css";
 import * as VueGoogleMaps from "vue2-google-maps";
+import Vuelidate from "vuelidate";
 
 Vue.use(Vuetify);
+Vue.use(Vuelidate);
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyDT51wAlPIyvw53HYzzfVZ23kY-stwTO1g",

@@ -27,7 +27,20 @@ export default {
           }
         ]
       },
-      chartOptions: { responsive: true, maintainAspectRatio: false }
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                min: 0,
+                stepSize: 1
+              }
+            }
+          ]
+        }
+      }
     };
   },
   async created() {
@@ -36,16 +49,23 @@ export default {
       await this.$store.dispatch("fetchTravels");
       let travels = this.travels;
       let o = {};
+
       for (let i = 0; i < travels.length; i++) {
         let el = travels[i];
         let key = el.date.substring(0, 4);
         if (o[key] === undefined) o[key] = 0;
         o[key] += 1;
       }
+
       this.chartData.labels = Object.keys(o);
       this.chartData.datasets[0].data = this.chartData.labels.map((k, i) => {
         return o[k];
       });
+
+      const k = 1.5;
+      let max = Math.max.apply(null, this.chartData.datasets[0].data) * k;
+
+      this.chartOptions.scales.yAxes[0].ticks.max = max;
       this.loaded = true;
     } catch (e) {
       console.error(e);

@@ -29,7 +29,9 @@ export default {
           {
             label: "Путешествия",
             backgroundColor: "#1976d2",
-            data: []
+            borderColor: "#1976d2",
+            data: [],
+            fill: false
           }
         ]
       },

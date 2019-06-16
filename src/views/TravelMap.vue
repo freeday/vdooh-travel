@@ -48,7 +48,8 @@ export default {
   computed: mapState(["travels"]),
   methods: {
     changeCenter() {
-      this.center = this.travels[this.travels.length - 1].marker;
+      if (this.travels.length)
+        this.center = this.travels[this.travels.length - 1].marker;
     }
   }
 };

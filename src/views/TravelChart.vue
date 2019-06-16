@@ -4,7 +4,13 @@
       <v-toolbar-title class="white--text">Диаграмма путешествий</v-toolbar-title>
     </v-toolbar>
     <v-card>
-      <travel-chart v-if="loaded" :chartdata="chartData" :options="chartOptions"></travel-chart>
+      <travel-chart v-if="travels.length && loaded" :chartdata="chartData" :options="chartOptions"></travel-chart>
+      <v-card-text v-else>
+        <v-card-text class="text-xs-center">Вы ещё не создали ни одного путешествия</v-card-text>
+        <v-card-text class="text-xs-center">
+          <v-btn large color="primary" :to="{ name: 'travel-make' }">Создать первое путешествие</v-btn>
+        </v-card-text>
+      </v-card-text>
     </v-card>
   </v-container>
 </template>

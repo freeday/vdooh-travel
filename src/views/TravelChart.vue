@@ -1,14 +1,24 @@
 <template>
   <v-container>
     <v-toolbar dark color="primary">
-      <v-toolbar-title class="white--text">Диаграмма путешествий</v-toolbar-title>
+      <v-toolbar-title class="white--text"
+        >Диаграмма путешествий</v-toolbar-title
+      >
     </v-toolbar>
     <v-card>
-      <travel-chart v-if="travels.length && loaded" :chartdata="chartData" :options="chartOptions"></travel-chart>
+      <travel-chart
+        v-if="travels.length && loaded"
+        :chartdata="chartData"
+        :options="chartOptions"
+      ></travel-chart>
       <v-card-text v-else>
-        <v-card-text class="text-xs-center">Вы ещё не создали ни одного путешествия</v-card-text>
+        <v-card-text class="text-xs-center"
+          >Вы ещё не создали ни одного путешествия</v-card-text
+        >
         <v-card-text class="text-xs-center">
-          <v-btn large color="primary" :to="{ name: 'travel-make' }">Создать первое путешествие</v-btn>
+          <v-btn large color="primary" :to="{ name: 'travel-make' }"
+            >Создать первое путешествие</v-btn
+          >
         </v-card-text>
       </v-card-text>
     </v-card>
@@ -66,7 +76,7 @@ export default {
       }
 
       this.chartData.labels = Object.keys(o);
-      this.chartData.datasets[0].data = this.chartData.labels.map((k, i) => {
+      this.chartData.datasets[0].data = this.chartData.labels.map(k => {
         return o[k];
       });
 

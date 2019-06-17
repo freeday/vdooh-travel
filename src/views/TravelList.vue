@@ -5,12 +5,20 @@
     </v-toolbar>
     <v-card>
       <v-list v-if="travels.length">
-        <TravelItem v-for="travel in travels" :key="travel.id" :travel="travel"/>
+        <TravelItem
+          v-for="travel in travels"
+          :key="travel.id"
+          :travel="travel"
+        />
       </v-list>
       <v-card-text v-else>
-        <v-card-text class="text-xs-center">Вы ещё не создали ни одного путешествия</v-card-text>
+        <v-card-text class="text-xs-center"
+          >Вы ещё не создали ни одного путешествия</v-card-text
+        >
         <v-card-text class="text-xs-center">
-          <v-btn large color="primary" :to="{ name: 'travel-make' }">Создать первое путешествие</v-btn>
+          <v-btn large color="primary" :to="{ name: 'travel-make' }"
+            >Создать первое путешествие</v-btn
+          >
         </v-card-text>
       </v-card-text>
     </v-card>

@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <v-toolbar dark color="primary">
-      <v-toolbar-title class="white--text">Добавить новое путешествие</v-toolbar-title>
+      <v-toolbar-title class="white--text"
+        >Добавить новое путешествие</v-toolbar-title
+      >
     </v-toolbar>
     <v-card>
       <v-container>
@@ -18,9 +20,18 @@
                 min-width="290px"
               >
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="travel.date" label="Дата путешествия" readonly v-on="on"></v-text-field>
+                  <v-text-field
+                    v-model="travel.date"
+                    label="Дата путешествия"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
                 </template>
-                <v-date-picker v-model="travel.date" @input="showPicker = false" locale="ru"></v-date-picker>
+                <v-date-picker
+                  v-model="travel.date"
+                  @input="showPicker = false"
+                  locale="ru"
+                ></v-date-picker>
               </v-menu>
             </v-flex>
             <v-flex xs12>
@@ -44,7 +55,9 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-btn large color="primary" @click="validate">Добавить путешествие</v-btn>
+              <v-btn large color="primary" @click="validate"
+                >Добавить путешествие</v-btn
+              >
             </v-flex>
           </v-layout>
         </v-form>
@@ -112,7 +125,7 @@ export default {
         let geocoder = new res.maps.Geocoder();
         let address = `${this.travel.country}, ${this.travel.city}`;
         geocoder.geocode({ address: address }, (results, status) => {
-          if (status == google.maps.GeocoderStatus.OK) {
+          if (status == "OK") {
             this.travel.marker.lat = results[0].geometry.location.lat();
             this.travel.marker.lng = results[0].geometry.location.lng();
 

@@ -16,13 +16,17 @@
           :key="index"
           :position="t.marker"
           :clickable="true"
-          @click="center=t.marker"
+          @click="center = t.marker"
         ></gmap-marker>
       </gmap-map>
       <v-card-text v-else>
-        <v-card-text class="text-xs-center">Вы ещё не создали ни одного путешествия</v-card-text>
+        <v-card-text class="text-xs-center"
+          >Вы ещё не создали ни одного путешествия</v-card-text
+        >
         <v-card-text class="text-xs-center">
-          <v-btn large color="primary" :to="{ name: 'travel-make' }">Создать первое путешествие</v-btn>
+          <v-btn large color="primary" :to="{ name: 'travel-make' }"
+            >Создать первое путешествие</v-btn
+          >
         </v-card-text>
       </v-card-text>
     </v-card>
